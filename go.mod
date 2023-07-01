@@ -1,4 +1,4 @@
-module github.com/taigrr/elevenlabs
+module github.com/arjendevos/elevenlabs
 
 go 1.18
 
