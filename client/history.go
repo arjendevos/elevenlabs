@@ -10,7 +10,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/taigrr/elevenlabs/client/types"
+	"github.com/arjendevos/elevenlabs/client/types"
 )
 
 func ErrorsJoin(err ...error) error {
@@ -31,7 +31,7 @@ func (c Client) HistoryDelete(ctx context.Context, historyItemID string) (bool, 
 	}
 	req.Header.Set("accept", "application/json")
 	req.Header.Set("xi-api-key", c.apiKey)
-	req.Header.Set("User-Agent", "github.com/taigrr/elevenlabs")
+	req.Header.Set("User-Agent", "github.com/arjendevos/elevenlabs")
 	res, err := client.Do(req)
 
 	switch res.StatusCode {
@@ -73,7 +73,7 @@ func (c Client) HistoryDownloadZipWriter(ctx context.Context, w io.Writer, id1, 
 
 	req.Header.Set("accept", "archive/zip")
 	req.Header.Set("xi-api-key", c.apiKey)
-	req.Header.Set("User-Agent", "github.com/taigrr/elevenlabs")
+	req.Header.Set("User-Agent", "github.com/arjendevos/elevenlabs")
 	res, err := client.Do(req)
 
 	switch res.StatusCode {
@@ -117,7 +117,7 @@ func (c Client) HistoryDownloadZip(ctx context.Context, id1, id2 string, additio
 
 	req.Header.Set("accept", "archive/zip")
 	req.Header.Set("xi-api-key", c.apiKey)
-	req.Header.Set("User-Agent", "github.com/taigrr/elevenlabs")
+	req.Header.Set("User-Agent", "github.com/arjendevos/elevenlabs")
 	res, err := client.Do(req)
 
 	switch res.StatusCode {
@@ -156,7 +156,7 @@ func (c Client) HistoryDownloadAudioWriter(ctx context.Context, w io.Writer, ID 
 		return err
 	}
 	req.Header.Set("xi-api-key", c.apiKey)
-	req.Header.Set("User-Agent", "github.com/taigrr/elevenlabs")
+	req.Header.Set("User-Agent", "github.com/arjendevos/elevenlabs")
 	req.Header.Set("accept", "audio/mpeg")
 	res, err := client.Do(req)
 
@@ -193,7 +193,7 @@ func (c Client) HistoryDownloadAudio(ctx context.Context, ID string) ([]byte, er
 		return []byte{}, err
 	}
 	req.Header.Set("xi-api-key", c.apiKey)
-	req.Header.Set("User-Agent", "github.com/taigrr/elevenlabs")
+	req.Header.Set("User-Agent", "github.com/arjendevos/elevenlabs")
 	req.Header.Set("accept", "audio/mpeg")
 	res, err := client.Do(req)
 
@@ -233,7 +233,7 @@ func (c Client) GetHistoryItemList(ctx context.Context) ([]types.HistoryItemList
 		return []types.HistoryItemList{}, err
 	}
 	req.Header.Set("xi-api-key", c.apiKey)
-	req.Header.Set("User-Agent", "github.com/taigrr/elevenlabs")
+	req.Header.Set("User-Agent", "github.com/arjendevos/elevenlabs")
 	req.Header.Set("accept", "application/json")
 	res, err := client.Do(req)
 
