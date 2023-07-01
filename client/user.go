@@ -3,7 +3,6 @@ package client
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"net/http"
 
 	"github.com/taigrr/elevenlabs/client/types"
@@ -43,9 +42,9 @@ func (c Client) GetUserInfo(ctx context.Context) (types.UserResponseModel, error
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return types.UserResponseModel{}, err
 	}

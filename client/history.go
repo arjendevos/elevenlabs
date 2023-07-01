@@ -13,6 +13,14 @@ import (
 	"github.com/taigrr/elevenlabs/client/types"
 )
 
+func ErrorsJoin(err ...error) error {
+	var fullError string
+	for _, e := range err {
+		fullError = fmt.Sprintf("%s - %s", fullError, e.Error())
+	}
+	return errors.New(fullError)
+}
+
 func (c Client) HistoryDelete(ctx context.Context, historyItemID string) (bool, error) {
 	url := fmt.Sprintf(c.endpoint+"/v1/history/%s", historyItemID)
 
@@ -41,9 +49,9 @@ func (c Client) HistoryDelete(ctx context.Context, historyItemID string) (bool, 
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return false, err
 	}
@@ -85,9 +93,9 @@ func (c Client) HistoryDownloadZipWriter(ctx context.Context, w io.Writer, id1, 
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return err
 	}
@@ -132,9 +140,9 @@ func (c Client) HistoryDownloadZip(ctx context.Context, id1, id2 string, additio
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return []byte{}, err
 	}
@@ -169,9 +177,9 @@ func (c Client) HistoryDownloadAudioWriter(ctx context.Context, w io.Writer, ID 
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return err
 	}
@@ -209,9 +217,9 @@ func (c Client) HistoryDownloadAudio(ctx context.Context, ID string) ([]byte, er
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return []byte{}, err
 	}
@@ -251,9 +259,9 @@ func (c Client) GetHistoryItemList(ctx context.Context) ([]types.HistoryItemList
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return []types.HistoryItemList{}, err
 	}

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"mime/multipart"
@@ -59,9 +58,9 @@ func (c Client) CreateVoice(ctx context.Context, name, description string, label
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return err
 	}
@@ -93,9 +92,9 @@ func (c Client) DeleteVoice(ctx context.Context, voiceID string) error {
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return err
 	}
@@ -135,9 +134,9 @@ func (c Client) EditVoiceSettings(ctx context.Context, voiceID string, settings 
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return err
 	}
@@ -187,9 +186,9 @@ func (c Client) EditVoice(ctx context.Context, voiceID, name, description string
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return err
 	}
@@ -227,9 +226,9 @@ func (c Client) defaultVoiceSettings(ctx context.Context) (types.SynthesisOption
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return types.SynthesisOptions{}, err
 	}
@@ -267,9 +266,9 @@ func (c Client) GetVoiceSettings(ctx context.Context, voiceID string) (types.Syn
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return types.SynthesisOptions{}, err
 	}
@@ -308,9 +307,9 @@ func (c Client) GetVoice(ctx context.Context, voiceID string) (types.VoiceRespon
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return types.VoiceResponseModel{}, err
 
@@ -349,9 +348,9 @@ func (c Client) GetVoices(ctx context.Context) ([]types.VoiceResponseModel, erro
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return []types.VoiceResponseModel{}, err
 	}

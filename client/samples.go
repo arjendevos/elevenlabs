@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -41,9 +40,9 @@ func (c Client) DeleteVoiceSample(ctx context.Context, voiceID, sampleID string)
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return false, err
 	}
@@ -78,9 +77,9 @@ func (c Client) DownloadVoiceSampleWriter(ctx context.Context, w io.Writer, voic
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return err
 	}
@@ -118,9 +117,9 @@ func (c Client) DownloadVoiceSample(ctx context.Context, voiceID, sampleID strin
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return []byte{}, err
 	}

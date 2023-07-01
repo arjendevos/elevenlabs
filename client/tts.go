@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
+	"log"
 	"net/http"
 
 	"github.com/taigrr/elevenlabs/client/types"
@@ -47,9 +48,9 @@ func (c Client) TTSWriter(ctx context.Context, w io.Writer, text, modelID, voice
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return err
 	}
@@ -80,11 +81,13 @@ func (c Client) TTS(ctx context.Context, text, voiceID, modelID string, options 
 	case 401:
 		return []byte{}, ErrUnauthorized
 	case 200:
-		b := bytes.Buffer{}
+		data, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			log.Fatalf("Failed to read response body: %v", err)
+		}
 
 		defer res.Body.Close()
-		io.Copy(w, res.Body)
-		return b.Bytes(), nil
+		return data, nil
 	case 422:
 		fallthrough
 	default:
@@ -92,9 +95,9 @@ func (c Client) TTS(ctx context.Context, text, voiceID, modelID string, options 
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return []byte{}, err
 	}
@@ -134,9 +137,9 @@ func (c Client) TTSStream(ctx context.Context, w io.Writer, text, voiceID string
 		defer res.Body.Close()
 		jerr := json.NewDecoder(res.Body).Decode(&ve)
 		if jerr != nil {
-			err = errors.Join(err, jerr)
+			err = ErrorsJoin(err, jerr)
 		} else {
-			err = errors.Join(err, ve)
+			err = ErrorsJoin(err, ve)
 		}
 		return err
 	}
