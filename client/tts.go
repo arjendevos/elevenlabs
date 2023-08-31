@@ -70,6 +70,7 @@ func (c Client) TTS(ctx context.Context, text, voiceID, modelID string, options 
 	if err != nil {
 		return []byte{}, err
 	}
+
 	req.Header.Set("xi-api-key", c.apiKey)
 	req.Header.Set("User-Agent", "github.com/arjendevos/elevenlabs")
 	req.Header.Set("accept", "audio/mpeg")
@@ -77,6 +78,8 @@ func (c Client) TTS(ctx context.Context, text, voiceID, modelID string, options 
 	if err != nil {
 		return []byte{}, err
 	}
+
+	fmt.Println("res", res.StatusCode)
 	switch res.StatusCode {
 	case 401:
 		return []byte{}, ErrUnauthorized
